@@ -19,14 +19,33 @@ class MainActivity : AppCompatActivity() {
      * This method is called when the order button is clicked.
      */
     fun submitOrder(view: View){
-        val priceMessage = "Total: $${quantity * 35} \nThanks!"
-        displayMessage(priceMessage)
+        val price = calculatePrice()
+        displayMessage(createOrderSummary(price))
+    }
+
+    /**
+     * Calculates the price of the order.
+     *
+     * @return total price
+     */
+    private fun calculatePrice(): Int {
+        return quantity * 35
+    }
+
+    /**
+     * Creates the order summary
+     *
+     * @param price of the order
+     * @return text summary
+     */
+    private fun createOrderSummary(price: Int): String {
+        return "Name: Dude \nQuantity: $quantity \nTotal: $$price \nThank You!"
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private fun display(number: Int){
+    private fun displayQuantity(number: Int){
         val quantityTextView = findViewById<TextView>(R.id.quantity_text_view)
         quantityTextView.text = "" + number
     }
@@ -35,16 +54,8 @@ class MainActivity : AppCompatActivity() {
      * This method displays the given text on the screen.
      */
     private fun displayMessage(message: String) {
-        val priceTextView = findViewById<TextView>(R.id.price_text_view)
-        priceTextView.text = message
-    }
-
-    /**
-     * This method displays the given price on the screen.
-     */
-    private fun displayPrice(number: Int) {
-        val priceTextView = findViewById<TextView>(R.id.price_text_view)
-        priceTextView.text = NumberFormat.getCurrencyInstance().format(number)
+        val orderSummaryTextView = findViewById<TextView>(R.id.order_summary_text_view)
+        orderSummaryTextView.text = message
     }
 
     /**
@@ -52,7 +63,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun increment(view: View){
         quantity += 1
-        display(quantity)
+        displayQuantity(quantity)
     }
 
     /**
@@ -60,6 +71,6 @@ class MainActivity : AppCompatActivity() {
      */
     fun decrement(view: View){
         quantity -= 1
-        display(quantity)
+        displayQuantity(quantity)
     }
 }
