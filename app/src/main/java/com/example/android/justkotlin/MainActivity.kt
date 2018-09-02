@@ -3,6 +3,7 @@ package com.example.android.justkotlin
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import android.widget.TextView
 import java.text.NumberFormat
 
@@ -20,7 +21,10 @@ class MainActivity : AppCompatActivity() {
      */
     fun submitOrder(view: View){
         val price = calculatePrice()
-        displayMessage(createOrderSummary(price))
+        val whippedCreamCheckbox = findViewById<CheckBox>(R.id.whipped_cream_checkbox)
+        val hasWhippedCream = whippedCreamCheckbox.isChecked
+
+        displayMessage(createOrderSummary(price,hasWhippedCream))
     }
 
     /**
@@ -36,10 +40,11 @@ class MainActivity : AppCompatActivity() {
      * Creates the order summary
      *
      * @param price of the order
+     * @param hasWhippedCream whether or not the user wants whipped cream
      * @return text summary
      */
-    private fun createOrderSummary(price: Int): String {
-        return "Name: Dude \nQuantity: $quantity \nTotal: $$price \nThank You!"
+    private fun createOrderSummary(price: Int, hasWhippedCream: Boolean): String {
+        return "Name: Dude \nAdded Whipped Cream? $hasWhippedCream \nQuantity: $quantity \nTotal: $$price \nThank You!"
     }
 
     /**
