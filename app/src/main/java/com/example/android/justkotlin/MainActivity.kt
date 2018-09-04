@@ -2,8 +2,10 @@ package com.example.android.justkotlin
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
 import java.text.NumberFormat
 
@@ -28,9 +30,13 @@ class MainActivity : AppCompatActivity() {
         val chocolateCheckbox = findViewById<CheckBox>(R.id.chocolate_checkbox)
         val hasChocolate = chocolateCheckbox.isChecked
 
+        // Getting the user's name
+        val nameTextEdit = findViewById<EditText>(R.id.name_edit_text)
+        val userName = nameTextEdit.text.toString()
+
         val price = calculatePrice()
 
-        displayMessage(createOrderSummary(price, hasWhippedCream, hasChocolate))
+        displayMessage(createOrderSummary(userName, price, hasWhippedCream, hasChocolate))
     }
 
     /**
@@ -45,13 +51,14 @@ class MainActivity : AppCompatActivity() {
     /**
      * Creates the order summary
      *
+     * @param userName the name that the user entered in the text field
      * @param price of the order
      * @param hasWhippedCream whether or not the user wants whipped cream
      * @param hasChocolate whether or not the user wants chocolate
      * @return text summary
      */
-    private fun createOrderSummary(price: Int, hasWhippedCream: Boolean, hasChocolate: Boolean): String {
-        return "Name: Dude \nAdd Whipped Cream? $hasWhippedCream \nAdd Chocolate? $hasChocolate \nQuantity: $quantity \nTotal: $$price \nThank You!"
+    private fun createOrderSummary(userName: String, price: Int, hasWhippedCream: Boolean, hasChocolate: Boolean): String {
+        return "Name: $userName \nAdd Whipped Cream? $hasWhippedCream \nAdd Chocolate? $hasChocolate \nQuantity: $quantity \nTotal: $$price \nThank You!"
     }
 
     /**
