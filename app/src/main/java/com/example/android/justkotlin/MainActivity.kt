@@ -20,11 +20,17 @@ class MainActivity : AppCompatActivity() {
      * This method is called when the order button is clicked.
      */
     fun submitOrder(view: View){
-        val price = calculatePrice()
+        // Getting the value of the whipped cream checkbox
         val whippedCreamCheckbox = findViewById<CheckBox>(R.id.whipped_cream_checkbox)
         val hasWhippedCream = whippedCreamCheckbox.isChecked
 
-        displayMessage(createOrderSummary(price,hasWhippedCream))
+        // Getting the value of the chocolate checkbox
+        val chocolateCheckbox = findViewById<CheckBox>(R.id.chocolate_checkbox)
+        val hasChocolate = chocolateCheckbox.isChecked
+
+        val price = calculatePrice()
+
+        displayMessage(createOrderSummary(price, hasWhippedCream, hasChocolate))
     }
 
     /**
@@ -41,10 +47,11 @@ class MainActivity : AppCompatActivity() {
      *
      * @param price of the order
      * @param hasWhippedCream whether or not the user wants whipped cream
+     * @param hasChocolate whether or not the user wants chocolate
      * @return text summary
      */
-    private fun createOrderSummary(price: Int, hasWhippedCream: Boolean): String {
-        return "Name: Dude \nAdded Whipped Cream? $hasWhippedCream \nQuantity: $quantity \nTotal: $$price \nThank You!"
+    private fun createOrderSummary(price: Int, hasWhippedCream: Boolean, hasChocolate: Boolean): String {
+        return "Name: Dude \nAdd Whipped Cream? $hasWhippedCream \nAdd Chocolate? $hasChocolate \nQuantity: $quantity \nTotal: $$price \nThank You!"
     }
 
     /**
