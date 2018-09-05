@@ -7,11 +7,12 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import java.text.NumberFormat
 
 class MainActivity : AppCompatActivity() {
 
-    var quantity = 0
+    var quantity = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val nameTextEdit = findViewById<EditText>(R.id.name_edit_text)
         val userName = nameTextEdit.text.toString()
 
-        val price = calculatePrice()
+        val price = calculatePrice(hasWhippedCream, hasChocolate)
 
         displayMessage(createOrderSummary(userName, price, hasWhippedCream, hasChocolate))
     }
@@ -42,10 +43,26 @@ class MainActivity : AppCompatActivity() {
     /**
      * Calculates the price of the order.
      *
+     * @param hasWhippedCream whether or not the user wants whipped cream
+     * @param hasChocolate whether or not the user wants chocolate
      * @return total price
      */
-    private fun calculatePrice(): Int {
-        return quantity * 35
+    private fun calculatePrice(hasWhippedCream: Boolean, hasChocolate: Boolean): Int {
+        // Base price of a cup of coffee
+        var base = 35
+
+        // Adding +1 when whipped cream topping is selected
+        if (hasWhippedCream){
+            base += 1
+        }
+
+        // Adding +2 when whipped cream topping is selected
+        if (hasChocolate){
+            base += 2
+        }
+
+        // Return the total price
+        return quantity * base
     }
 
     /**
@@ -81,14 +98,26 @@ class MainActivity : AppCompatActivity() {
      * This method is called when the + button is clicked.
      */
     fun increment(view: View){
+        if (quantity == 100){
+            val toast = Toast.makeText(applicationContext, "You cannot order more than 100 coffees", Toast.LENGTH_SHORT)
+            toast.show()
+            return
+        }
+
         quantity += 1
         displayQuantity(quantity)
     }
 
     /**
-     * This method is called when the + button is clicked.
+     * This method is called when the - button is clicked.
      */
     fun decrement(view: View){
+        if (quantity == 1){
+            val toast = Toast.makeText(applicationContext, "You cannot order less than 1 coffee", Toast.LENGTH_SHORT)
+            toast.show()
+            return
+        }
+
         quantity -= 1
         displayQuantity(quantity)
     }
