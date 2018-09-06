@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import android.content.Intent
 import android.net.Uri
+import java.text.NumberFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -94,7 +95,12 @@ class MainActivity : AppCompatActivity() {
      * @return text summary
      */
     private fun createOrderSummary(userName: String, price: Int, hasWhippedCream: Boolean, hasChocolate: Boolean): String {
-        return "Name: $userName \nAdd Whipped Cream? $hasWhippedCream \nAdd Chocolate? $hasChocolate \nQuantity: $quantity \nTotal: $$price \nThank You!"
+        return getString(R.string.order_summary_name, userName) +
+                "\n" + getString(R.string.order_summary_whipped_cream, hasWhippedCream) +
+                "\n" + getString(R.string.order_summary_chocolate, hasChocolate) +
+                "\n" + getString(R.string.order_summary_quantity, quantity) +
+                "\n" + getString(R.string.order_summary_price, NumberFormat.getCurrencyInstance().format(price)) +
+                "\n" + getString(R.string.thank_you)
     }
 
     /**
