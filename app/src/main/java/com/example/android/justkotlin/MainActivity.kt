@@ -2,13 +2,14 @@ package com.example.android.justkotlin
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import java.text.NumberFormat
+import android.content.Intent
+import android.net.Uri
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +38,25 @@ class MainActivity : AppCompatActivity() {
 
         val price = calculatePrice(hasWhippedCream, hasChocolate)
 
-        displayMessage(createOrderSummary(userName, price, hasWhippedCream, hasChocolate))
+        val summary = createOrderSummary(userName, price, hasWhippedCream, hasChocolate)
+
+        sendEmail("JustKotlin order for $userName", summary)
+    }
+
+    /**
+     * Use an intent to send the email
+     *
+     * @param subject of the email
+     * @param summary of the orders
+     */
+    private fun sendEmail(subject: String, summary: String) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        intent.putExtra(Intent.EXTRA_TEXT, summary)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
     /**
@@ -84,14 +103,6 @@ class MainActivity : AppCompatActivity() {
     private fun displayQuantity(number: Int){
         val quantityTextView = findViewById<TextView>(R.id.quantity_text_view)
         quantityTextView.text = "" + number
-    }
-
-    /**
-     * This method displays the given text on the screen.
-     */
-    private fun displayMessage(message: String) {
-        val orderSummaryTextView = findViewById<TextView>(R.id.order_summary_text_view)
-        orderSummaryTextView.text = message
     }
 
     /**
